@@ -1,0 +1,9 @@
+{
+  "todoSistemasApp": {
+    "EstadoActividad": {
+      "null": "",
+      "PENDIENTE": "PENDIENTE",
+      "REALIZADA": "REALIZADA"
+    }
+  }
+}

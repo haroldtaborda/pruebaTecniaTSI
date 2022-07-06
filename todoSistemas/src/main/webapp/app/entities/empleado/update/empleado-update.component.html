@@ -1,0 +1,110 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-empleado-heading" data-cy="EmpleadoCreateUpdateHeading" jhiTranslate="todoSistemasApp.empleado.home.createOrEditLabel">
+        Create or edit a Empleado
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <label class="form-label" jhiTranslate="todoSistemasApp.empleado.nombres" for="field_nombres">Nombres</label>
+            <input
+              type="text"
+              class="form-control"
+              name="nombres"
+              id="field_nombres"
+              data-cy="nombres"
+              formControlName="nombres"
+              required
+            />
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label" jhiTranslate="todoSistemasApp.empleado.apellidos" for="field_apellidos">Apellidos</label>
+            <input
+              type="text"
+              class="form-control"
+              name="apellidos"
+              id="field_apellidos"
+              data-cy="apellidos"
+              formControlName="apellidos"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <label class="form-label" jhiTranslate="todoSistemasApp.empleado.numeroIdentificacion" for="field_numeroIdentificacion"
+              >Numero Identificacion</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              name="numeroIdentificacion"
+              id="field_numeroIdentificacion"
+              data-cy="numeroIdentificacion"
+              formControlName="numeroIdentificacion"
+              required
+            />
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label" jhiTranslate="todoSistemasApp.empleado.tipoIdentificacion" for="field_tipoIdentificacion"
+              >Tipo Identificacion</label
+            >
+            <select
+              class="form-control"
+              name="tipoIdentificacion"
+              formControlName="tipoIdentificacion"
+              id="field_tipoIdentificacion"
+              data-cy="tipoIdentificacion"
+              [required]="true"
+            >
+              <option [ngValue]="null">{{ 'todoSistemasApp.TipoIdentificacion.null' | translate }}</option>
+              <option *ngFor="let tipoIdentificacion of tipoIdentificacionValues" [value]="tipoIdentificacion">
+                {{ 'todoSistemasApp.TipoIdentificacion.' + tipoIdentificacion | translate }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <label class="form-label" jhiTranslate="todoSistemasApp.empleado.fechaNacimiento" for="field_fechaNacimiento"
+              >Fecha Nacimiento</label
+            >
+            <input
+              type="datetime-local"
+              class="form-control"
+              name="fechaNacimiento"
+              id="field_fechaNacimiento"
+              data-cy="fechaNacimiento"
+              formControlName="fechaNacimiento"
+              required
+            />
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

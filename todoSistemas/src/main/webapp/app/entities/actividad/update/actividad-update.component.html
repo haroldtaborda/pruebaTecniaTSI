@@ -1,0 +1,95 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-actividad-heading" data-cy="ActividadCreateUpdateHeading" class="mb-3">
+        {{ titulo }}
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <label class="form-label" jhiTranslate="todoSistemasApp.actividad.nombre" for="field_nombre">Nombre</label>
+            <input type="text" class="form-control" name="nombre" id="field_nombre" data-cy="nombre" formControlName="nombre" required />
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label" jhiTranslate="todoSistemasApp.actividad.fechaEstimadaEjecucion" for="field_fechaEstimadaEjecucion"
+              >Fecha Estimada Ejecucion</label
+            >
+            <div class="d-flex">
+              <input
+                id="field_fechaEstimadaEjecucion"
+                data-cy="fechaEstimadaEjecucion"
+                type="datetime-local"
+                class="form-control"
+                name="fechaEstimadaEjecucion"
+                formControlName="fechaEstimadaEjecucion"
+                placeholder="YYYY-MM-DD HH:mm"
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <label class="form-label" jhiTranslate="todoSistemasApp.actividad.estado" for="field_estado">Estado</label>
+            <!-- <select class="form-control" name="estado" formControlName="estado" id="field_estado" data-cy="estado" required>
+              <option [ngValue]="null">{{ 'todoSistemasApp.EstadoActividad.null' | translate }}</option>
+              <option *ngFor="let estadoActividad of estadoActividadValues" [value]="estadoActividad">
+                {{ 'todoSistemasApp.EstadoActividad.' + estadoActividad | translate }}
+              </option>
+            </select> -->
+            <input type="text" class="form-control" [value]="this.editForm.get(['estado'])!.value" readonly />
+          </div>
+
+          <div  class="col-md-6">
+            <label class="form-label" jhiTranslate="todoSistemasApp.actividad.empleado" for="field_empleado">Empleado</label>
+            <select class="form-control" id="field_empleado" data-cy="empleado" name="empleado" formControlName="empleado" required>
+              <option [ngValue]="null"></option>
+              <option
+                [ngValue]="empleadoOption.id === editForm.get('empleado')!.value?.id ? editForm.get('empleado')!.value : empleadoOption"
+                *ngFor="let empleadoOption of empleadosSharedCollection; trackBy: trackEmpleadoById"
+              >
+                {{ empleadoOption.nombres }} {{ empleadoOption.apellidos }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <label class="form-label" jhiTranslate="todoSistemasApp.actividad.descripcion" for="field_descripcion">Descripcion</label>
+          <textarea
+            type="text"
+            class="form-control"
+            name="descripcion"
+            id="field_descripcion"
+            data-cy="descripcion"
+            formControlName="descripcion"
+            required
+          ></textarea>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

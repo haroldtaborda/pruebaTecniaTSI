@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="empleado">
+      <h2 data-cy="empleadoDetailsHeading"><span jhiTranslate="todoSistemasApp.empleado.detail.title">Empleado</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="todoSistemasApp.empleado.nombres">Nombres</span></dt>
+        <dd>
+          <span>{{ empleado.nombres }}</span>
+        </dd>
+        <dt><span jhiTranslate="todoSistemasApp.empleado.apellidos">Apellidos</span></dt>
+        <dd>
+          <span>{{ empleado.apellidos }}</span>
+        </dd>
+        <dt><span jhiTranslate="todoSistemasApp.empleado.fechaNacimiento">Fecha Nacimiento</span></dt>
+        <dd>
+          <span>{{ empleado.fechaNacimiento | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="todoSistemasApp.empleado.tipoIdentificacion">Tipo Identificacion</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'todoSistemasApp.TipoIdentificacion.' + empleado.tipoIdentificacion }}">{{
+            empleado.tipoIdentificacion
+          }}</span>
+        </dd>
+        <dt><span jhiTranslate="todoSistemasApp.empleado.numeroIdentificacion">Numero Identificacion</span></dt>
+        <dd>
+          <span>{{ empleado.numeroIdentificacion }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/empleado', empleado.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

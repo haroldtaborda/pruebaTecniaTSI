@@ -1,0 +1,10 @@
+{
+  "todoSistemasApp": {
+    "TipoIdentificacion": {
+      "null": "",
+      "CC": "CC",
+      "CE": "CE",
+      "PASAPORTE": "PASAPORTE"
+    }
+  }
+}

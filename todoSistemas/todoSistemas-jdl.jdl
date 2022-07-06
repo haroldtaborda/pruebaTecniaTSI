@@ -1,0 +1,37 @@
+enum TipoIdentificacion{
+	CC, CE, PASAPORTE
+}
+
+enum EstadoActividad{
+	PENDIENTE, REALIZADA
+}
+
+entity Actividad {
+	nombre String
+    fechaEstimadaEjecucion Instant
+    descripcion String
+	estado EstadoActividad
+   
+}
+
+entity Empleado {
+	nombres String
+    apellidos String
+    fechaNacimiento String
+    tipoIdentificacion TipoIdentificacion
+    numeroIdentificacion String
+}
+
+// defining multiple OneToMany relationships with comments
+relationship OneToMany {
+	Empleado to Actividad{empleado}
+}
+
+// Use Data Transfer Objects (DTO)
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl
+
+// Set an angular suffix
+// angularSuffix * with mySuffix

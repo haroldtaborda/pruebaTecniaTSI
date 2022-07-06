@@ -1,0 +1,28 @@
+{
+  "todoSistemasApp": {
+    "actividad": {
+      "home": {
+        "title": "Actividads",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Actividad",
+        "createOrEditLabel": "Create or edit a Actividad",
+        "notFound": "No Actividads found"
+      },
+      "created": "A new Actividad is created with identifier {{ param }}",
+      "updated": "A Actividad is updated with identifier {{ param }}",
+      "deleted": "A Actividad is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Actividad {{ id }}?"
+      },
+      "detail": {
+        "title": "Actividad"
+      },
+      "id": "ID",
+      "nombre": "Nombre",
+      "fechaEstimadaEjecucion": "Fecha Estimada Ejecucion",
+      "descripcion": "Descripcion",
+      "estado": "Estado",
+      "empleado": "Empleado"
+    }
+  }
+}

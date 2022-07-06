@@ -1,0 +1,143 @@
+<div>
+  <h2 id="page-heading" data-cy="ActividadHeading">
+    <div class="d-flex justify-content-center">
+      <span style="font-weight: bold; color: #000">Actividades</span>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="todoSistemasApp.actividad.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-actividad"
+        [routerLink]="['/actividad/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="todoSistemasApp.actividad.home.createLabel"> Create a new Actividad </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="actividads?.length === 0">
+    <span jhiTranslate="todoSistemasApp.actividad.home.notFound">No actividads found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="actividads && actividads.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span class="blueText" jhiTranslate="todoSistemasApp.actividad.nombre">Nombre</span></th>
+          <th scope="col">
+            <span class="blueText" jhiTranslate="todoSistemasApp.actividad.fechaEstimadaEjecucion">Fecha Estimada Ejecucion</span>
+          </th>
+          <th scope="col"><span class="blueText">Dias Retraso</span></th>
+          <th scope="col"><span class="blueText" jhiTranslate="todoSistemasApp.actividad.descripcion">Descripción</span></th>
+          <th scope="col"><span class="blueText" jhiTranslate="todoSistemasApp.actividad.estado">Estado</span></th>
+          <th scope="col"><span class="blueText" jhiTranslate="todoSistemasApp.actividad.empleado">Empleado</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let actividad of actividads; trackBy: trackId" data-cy="entityTable">
+          <td>{{ actividad.nombre }}</td>
+          <td>{{ actividad.fechaEstimadaEjecucion | formatMediumDatetime }}</td>
+          <td>{{ actividad.diasRetraso }}</td>
+          <td>{{ actividad.descripcion }}</td>
+          <td jhiTranslate="{{ 'todoSistemasApp.EstadoActividad.' + actividad.estado }}">{{ actividad.estado }}</td>
+          <td>
+            <div *ngIf="actividad.empleado">
+              <a [routerLink]="['/empleado', actividad.empleado?.id, 'view']"
+                >{{ actividad.empleado?.nombres }} {{ actividad.empleado?.apellidos }}</a
+              >
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/actividad', actividad.id, 'view']"
+                class="btn btn-info btn-sm me-2"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                *ngIf="actividad.estado === 'PENDIENTE'"
+                type="submit"
+                [routerLink]="['/actividad', actividad.id, 'edit']"
+                class="btn btn-primary btn-sm me-2"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button
+                *ngIf="actividad.estado === 'PENDIENTE'"
+                type="submit"
+                class="btn btn-warning btn-sm me-2"
+                data-cy="entityDeleteButton"
+                (click)="openModalFinalize(actividad)"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Finalizar</span>
+              </button>
+
+              <button
+                *ngIf="actividad.estado === 'PENDIENTE'"
+                type="submit"
+                (click)="delete(actividad)"
+                class="btn btn-danger btn-sm me-2"
+                data-cy="entityDeleteButton"
+              >
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- <div class="mt-5 row text-center">
+    <div *ngFor="let actividad of actividads" class="card text-center ms-4 mb-4" style="width: 16rem; border-radius: 1px; border-color: black; border-style: double;">
+      <div class="card-body">
+        <h5 class="card-title mt-4"><span class="blueText">Nombre: </span> {{actividad.nombre}}</h5>
+        <h6 class="card-subtitle mt-4"><span class="blueText">Fecha estimada ejecución: </span> {{actividad.fechaEstimadaEjecucion | formatMediumDatetime}}</h6>
+        <h6 class="card-subtitle mt-4"><span class="blueText">Dias de retraso: {{actividad.diasRetraso}} Dias</span></h6>
+        <h6 class="card-subtitle mt-4"><span class="blueText">Descripción: </span>{{actividad.descripcion}}</h6>
+        <h6 class="card-subtitle mt-4"><span class="blueText">Estado: </span>{{actividad.estado}}</h6>
+        <h6 class="card-subtitle mt-4"><span class="blueText">Empleado: </span>{{actividad.empleado?.nombres}}</h6>
+      </div>
+      <div class="d-flex justify-content-center mb-2">
+        <button [routerLink]="['/actividad', actividad.id, 'view']" class="me-2 btn btn-primary">Ver</button>
+        <button  [routerLink]="['/actividad', actividad.id, 'edit']" class="me-2 btn btn-primary">Editar</button>
+        <button class="me-2 btn btn-danger">Finalizar</button>
+      </div>
+    </div>
+  </div> -->
+</div>
+
+<ng-template #validarFinalizar>
+  <div class="modal-header">
+    <h2>Validacion para finalizar actividad</h2>
+  </div>
+  <div class="modal-body">
+    <span>¿Seguro que quiere finalizar esta actividad?</span>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-info" (click)="completeFinalize()">Confirmar</button>
+    <button class="btn btn-danger" (click)="cancel()">Cancelar</button>
+  </div>
+</ng-template>
